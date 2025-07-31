@@ -2,20 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Cat Gif with Axios</title>
+    <title>Giphy Search</title>
   </head>
   <body>
-    <h1>Here is your gif 🐱</h1>
+    <h1>Search for a Gif 🔍</h1>
+    <input type="text" id="searchInput" placeholder="Type something..." />
+    <button id="searchBtn">Search</button>
+    <br /><br />
+    <iframe id="gifFrame" width="480" height="270" frameborder="0" allowfullscreen></iframe>
 
-    <input type="text" id="searchInput" placeholder="What are you looking for?" />
-    <button  id="searchBtn">Search</button>
-    <iframe
-      id="gifs"
-      width="480"
-      height="270"
-      frameborder="0"
-      allowfullscreen
-    ></iframe>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="gifs.js"></script>
   </body>

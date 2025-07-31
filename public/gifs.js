@@ -1,20 +1,14 @@
-document.getElementById("searchBtn").addEventListener("click", searchBtn);
-
-function searchBtn() {
+document.getElementById("searchBtn").addEventListener("click", () => {
   const query = document.getElementById("searchInput").value.trim();
   if (!query) return;
 
   axios
-    .get(`http://localhost:3000/api/catgif?q=${encodeURIComponent(query)}`) // ✅ Query from input
+    .get(`/api/gif?q=${encodeURIComponent(query)}`)
     .then((response) => {
-      const iframe = document.getElementById("gifs");
-      if (iframe && response.data.embedUrl) {
-        iframe.src = response.data.embedUrl;
-      } else {
-        console.error("No GIF returned.");
-      }
+      const iframe = document.getElementById("gifFrame");
+      iframe.src = response.data.embedUrl;
     })
-    .catch((error) => {
-      console.error("Error fetching GIF:", error);
+    .catch((err) => {
+      console.error("Error fetching GIF:", err);
     });
-}
+});
