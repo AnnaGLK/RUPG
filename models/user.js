@@ -6,17 +6,15 @@ async function getUser() {
     const data = await response.json();
     const user = data.results[0];
 
-    console.log(`Found user: ${user.name} (${user.email})`);
-    console.log(user);
+    // console.log(`Found user: ${user.name} (${user.email})`);
+    // console.log(user);
+
     return user;
+    
   } catch (error) {
     console.error("Error fetching user:", error.message);
     return null;
   }
 }
 
-getUser().then(user => {
-  if (user) {
-    console.log("User object:", user);
-  }
-});
+module.exports = { getUser };
