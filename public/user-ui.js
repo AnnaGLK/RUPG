@@ -74,3 +74,20 @@ async function loadRandomPokemon() {
   }
 
   loadRandomPokemon();
+
+
+   async function fetchBaconIpsum() {
+      try {
+        const response = await fetch('https://baconipsum.com/api/?type=meat-and-filler&paras=2&format=text');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const text = await response.text();
+        document.getElementById('bacon-text').textContent = text;
+      } catch (error) {
+        document.getElementById('bacon-text').textContent = "Oops! Couldn't fetch meat-flavored info.";
+        console.error('Error fetching Bacon Ipsum:', error);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", fetchBaconIpsum);
