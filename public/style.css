@@ -1,4 +1,4 @@
-header{
+header {
   background-color: #91e6e6;
   padding: 20px;
   display: flex;
@@ -10,4 +10,20 @@ header{
   height: 50px;
   background-size: cover;
   border-radius: 50%;
+}
+#container {
+  display: flex;
+  flex-direction: row;
+  
+}
+#content {
+  width: 70%;
+  flex: 1;
+  padding: 20px;
+}
+#sidebar {
+  width: 30%;
+  background-color: #91e6e6;
+  padding: 20px;
+  border-left: 1px solid #ccc;
 }
