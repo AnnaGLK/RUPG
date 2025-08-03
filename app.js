@@ -9,11 +9,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Serve static files FIRST
-// const publicPath = path.join(__dirname, 'public');
-// console.log('Serving static files from:', publicPath);
-// app.use(express.static(publicPath));
+const publicPath = path.join(__dirname, 'public');
+console.log('Serving static files from:', publicPath);
+app.use(express.static(publicPath));
 // serve index.html, style.css, etc.
-app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static(path.join(__dirname, "public")));
 
 const User = require("./models/user");
 
