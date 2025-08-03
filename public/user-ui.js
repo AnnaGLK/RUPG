@@ -49,3 +49,28 @@ document.addEventListener("DOMContentLoaded", () => {
   loadKanyeQuote(); // Call the function to load the quote
 });
 
+async function loadRandomPokemon() {
+    try {
+      // Total number of Pokémon available in the API
+      const total = 1025;
+      const randomId = Math.floor(Math.random() * total) + 1;
+
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
+      if (!response.ok) throw new Error("Failed to fetch Pokémon");
+
+      const pokemon = await response.json();
+
+      // Extract name and front image
+      const name = pokemon.name;
+      const image = pokemon.sprites.front_default;
+
+      // Display in DOM
+      document.getElementById("pokemonName").textContent = name.charAt(0).toUpperCase() + name.slice(1);
+      document.getElementById("pokemonImage").src = image;
+
+    } catch (err) {
+      console.error("Error loading Pokémon:", err);
+    }
+  }
+
+  loadRandomPokemon();
