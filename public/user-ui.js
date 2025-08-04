@@ -166,8 +166,13 @@ function renderUserPage(user) {
 
 // PROMPT BEFORE SAVING
 function promptAndSave() {
+  const stored = JSON.parse(localStorage.getItem("users")) || {};
   const name = prompt("Enter a name for this user:");
   if (!name) return;
+  if (stored[name]) {
+    const confirmOverwrite = confirm("That name already exists. Overwrite?");
+    if (!confirmOverwrite) return;
+  }
   currentUser.name = name;
   saveCurrentUser(currentUser);
 }
