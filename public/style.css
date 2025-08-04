@@ -11,6 +11,26 @@ header {
   background-size: cover;
   border-radius: 50%;
 }
+#buttons{
+  width: 30%;
+  display: flex;
+  gap: 10px;
+}
+#buttons button {
+  width: 50%;
+  padding: 10px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#userDropdown{
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
 #container {
   display: flex;
   flex-direction: row;
