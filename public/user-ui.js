@@ -1,3 +1,4 @@
+// Promise.all
 // currentUser
 let currentUser = {
   name: "",
@@ -11,111 +12,86 @@ let currentUser = {
 
 // Fetch user data from the backend
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("/api/user") // Calls the backend endpoint
-    .then((res) => res.json())
-    .then((user) => {
-      // Update the HTML elements with user data
-      document.getElementById(
-        "logo"
-      ).innerHTML = `<img src="${user.picture.large}" alt="User Picture">`;
-      document.getElementById("userName").textContent =
-        user.name.first + " " + user.name.last;
-      document.getElementById(
-        "userAdress"
-      ).textContent = `${user.location.city}, ${user.location.state}`;
-    })
-    .catch((err) => {
-      console.error("Error loading user data:", err);
-    });
 
-  // Fetch 6 random friends
-  fetch("https://randomuser.me/api/?results=6")
-    .then((res) => res.json())
-    .then((data) => {
-      const friends = data.results;
-      const ul = document.getElementById("friendsList");
+ const pokemonId = Math.floor(Math.random() * 1025) + 1;
+ 
+   Promise.all([
+    fetch("/api/user").then(res => res.json()),
+    fetch("https://api.kanye.rest/").then(res => res.json()),
+    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`).then(res => res.json()),
+    fetch("https://baconipsum.com/api/?type=meat-and-filler&paras=2&format=text").then(res => res.text()),
+    fetch("https://randomuser.me/api/?results=6").then(res => res.json())
+  ])
+    .then(([user, kanye, pokemon, baconText, friendsData]) => {
+      const fullName = `${user.name.first} ${user.name.last}`;
+      const address = `${user.location.city}, ${user.location.state}`;
+      const image = pokemon.sprites.front_default;
+      const pokemonName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
 
-      friends.forEach((friend) => {
+      document.getElementById("userName").textContent = fullName;
+      document.getElementById("userAdress").textContent = address;
+      document.getElementById("logo").innerHTML = `<img src="${user.picture.large}" alt="User Picture">`;
+      document.getElementById("kanyeQuote").textContent = `"${kanye.quote}"`;
+      document.getElementById("pokemonName").textContent = pokemonName;
+      document.getElementById("pokemonImage").src = image;
+      document.getElementById("baconText").textContent = baconText;
+
+      const friendsList = document.getElementById("friendsList");
+      friendsList.innerHTML = "";
+      const friendNames = friendsData.results.map(f => `${f.name.first} ${f.name.last}`);
+      friendNames.forEach(name => {
         const li = document.createElement("li");
-        li.textContent = `${friend.name.first} ${friend.name.last}`;
-        ul.appendChild(li);
+        li.textContent = name;
+        friendsList.appendChild(li);
       });
+
+      // Apply gender-based background
+      const genderElements = document.querySelectorAll(".gender");
+      genderElements.forEach(el => {
+        el.style.backgroundColor = user.gender === "male" ? "lightblue" : "lightpink";
+      });
+      
+      currentUser = {
+        name: fullName,
+        address,
+        picture: user.picture.large,
+        quote: kanye.quote,
+        pokemon: { name: pokemonName, image },
+        meatText: baconText,
+        friends: friendNames
+      };
     })
-    .catch((err) => {
-      console.error("Error loading friends:", err);
+    .catch(error => {
+      console.error("Error loading user profile:", error);
+      document.getElementById("userName").textContent = "Failed to load user.";
+      document.getElementById("userAdress").textContent = "Check API connection.";
+      document.getElementById("kanyeQuote").textContent = "No quote available.";
+      document.getElementById("baconText").textContent = "No bacon ipsum available.";
     });
-
-  // Kanye quote fetch
-  async function loadKanyeQuote() {
-    try {
-      const response = await fetch("https://api.kanye.rest/");
-      if (!response.ok) throw new Error("Failed to fetch Kanye quote");
-
-      const data = await response.json();
-      document.getElementById("kanyeQuote").textContent = `"${data.quote}"`;
-    } catch (err) {
-      console.error("Error loading Kanye quote:", err);
-    }
-  }
-
-  loadKanyeQuote(); // Call the function to load the quote
 });
 
-// Load random Pokémon and Bacon Ipsum text
-async function loadRandomPokemon() {
-  try {
-    // Total number of Pokémon available in the API
-    const total = 1025;
-    const randomId = Math.floor(Math.random() * total) + 1;
 
-    const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${randomId}`
-    );
-    if (!response.ok) throw new Error("Failed to fetch Pokémon");
+function promptAndSave() {
+  const stored = JSON.parse(localStorage.getItem("users")) || {};
+  const name = prompt("Enter a name to save this user:");
+  if (!name) return;
 
-    const pokemon = await response.json();
-
-    // Extract name and front image
-    const name = pokemon.name;
-    const image = pokemon.sprites.front_default;
-
-    // Display in DOM
-    document.getElementById("pokemonName").textContent =
-      name.charAt(0).toUpperCase() + name.slice(1);
-    document.getElementById("pokemonImage").src = image;
-  } catch (err) {
-    console.error("Error loading Pokémon:", err);
+  if (stored[name]) {
+    const confirmOverwrite = confirm("That name already exists. Overwrite?");
+    if (!confirmOverwrite) return;
   }
+
+  currentUser.name = name;
+  saveCurrentUser(currentUser);
+  updateUserDropdown(); // <- Update dropdown after saving
 }
-
-loadRandomPokemon();
-
-// Fetch Bacon Ipsum text
-async function fetchBaconIpsum() {
-  try {
-    const response = await fetch(
-      "https://baconipsum.com/api/?type=meat-and-filler&paras=2&format=text"
-    );
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const text = await response.text();
-    document.getElementById("bacon-text").textContent = text;
-  } catch (error) {
-    document.getElementById("bacon-text").textContent =
-      "Oops! Couldn't fetch meat-flavored info.";
-    console.error("Error fetching Bacon Ipsum:", error);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", fetchBaconIpsum);
 
 // Save user data to localStorage
 function saveCurrentUser(userData) {
   const stored = JSON.parse(localStorage.getItem("users")) || {};
   stored[userData.name] = userData;
   localStorage.setItem("users", JSON.stringify(stored));
-  updateUserDropdown(); // update the dropdown options
+ 
 }
 
 // load user data from localStorage
@@ -131,6 +107,7 @@ function loadSelectedUser() {
 // UPDATE DROPDOWN
 function updateUserDropdown() {
   const dropdown = document.getElementById("userDropdown");
+  if (!dropdown) return;
   const stored = JSON.parse(localStorage.getItem("users")) || {};
   dropdown.innerHTML = ""; // clear existing options
 
@@ -141,7 +118,6 @@ function updateUserDropdown() {
     dropdown.appendChild(option);
   }
 }
-
 
 // RENDER PAGE FROM USER OBJECT
 function renderUserPage(user) {
@@ -162,17 +138,4 @@ function renderUserPage(user) {
   });
 
   currentUser = user; // update reference
-}
-
-// PROMPT BEFORE SAVING
-function promptAndSave() {
-  const stored = JSON.parse(localStorage.getItem("users")) || {};
-  const name = prompt("Enter a name for this user:");
-  if (!name) return;
-  if (stored[name]) {
-    const confirmOverwrite = confirm("That name already exists. Overwrite?");
-    if (!confirmOverwrite) return;
-  }
-  currentUser.name = name;
-  saveCurrentUser(currentUser);
 }

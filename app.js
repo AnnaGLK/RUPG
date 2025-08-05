@@ -13,7 +13,7 @@ const publicPath = path.join(__dirname, 'public');
 console.log('Serving static files from:', publicPath);
 app.use(express.static(publicPath));
 // serve index.html, style.css, etc.
-// app.use(express.static(path.join(__dirname, "public")));
+
 
 const User = require("./models/user");
 

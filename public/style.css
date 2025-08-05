@@ -2,71 +2,76 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 body {
-  background-color: #f5f5f5;
+  background-color: #f0f2f5;
   padding: 20px;
+  color: #333;
 }
 h2 {
   margin-bottom: 20px;
-  border-bottom: #91e6e6 2px solid;
+  border-bottom: #6cd0d0 2px solid;
+  padding-bottom: 5px;
 }
 
 /* ---------------header--------------- */
 
-header {
-  background-color: #91e6e6;
+header.gender {
   padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+  transition: background-color 0.3s ease;
 }
 #logo img {
   width: 100px;
   height: 100px;
-  background-size: cover;
+  object-fit: cover;
   border-radius: 50%;
+  border: 3px solid white;
 }
-#userData {
+.userData {
   flex: 1;
   margin-left: 20px;
 }
-#buttons {
+.buttons {
   width: 30%;
   display: flex;
+  flex-direction: column;
   gap: 10px;
-  align-items: center;
+  align-items: stretch;
 }
-#buttons button {
-  width: 50%;
+.buttons button {
   padding: 10px 15px;
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 1rem;
   transition: background-color 0.2s;
 }
-#buttons button:hover {
+.buttons button:hover {
   background-color: #0056b3;
 }
 #userDropdown {
   width: 100%;
-  padding: 5px;
+  padding: 8px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  font-size: 1rem;
 }
-select {
+/* select {
   padding: 6px;
   border-radius: 5px;
-}
+} */
 
 /* ---------------main data container--------------- */
-#container {
+.container {
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -74,12 +79,14 @@ select {
 .row {
   margin-bottom: 20px;
 }
-#content {
+.content {
   width: 70%;
-  flex: 1;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
-#pokemonDetails {
+.pokemonDetails {
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
@@ -89,23 +96,27 @@ select {
 }
 img {
   max-width: 100%;
+  height: auto;
 }
 
 /* ---------------sidebar--------------- */
-#sidebar {
+.sidebar.gender {
   width: 30%;
   color: #007bff;
-  background-color: #91e6e6;
   padding: 20px;
   border-left: 1px solid #ccc;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
 }
 ul {
   list-style-type: none;
   padding: 0;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 li {
-  padding: 5px 0;
+  padding: 6px 0;
 }
+
+
+

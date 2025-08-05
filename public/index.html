@@ -7,38 +7,38 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header>
+    <header class="gender">
       <div id="logo"></div>
-      <div id="userData">
+      <div class="userData">
         <h1 id="userName">Loading...</h1>
         <span id="userAdress"></span>
       </div>
-      <div id="buttons">
+      <div class="buttons">
         <button onclick="promptAndSave()">Save User</button>
         <button onclick="loadSelectedUser()">Load User</button>
         <select id="userDropdown"></select>
       </div>
     </header>
 
-    <div id="container">
-      <div id="content">
+    <div class="container">
+      <div class="content">
         <div id="kanye" class="row">
           <h2>Kanye says:</h2>
           <p id="kanyeQuote"></p>
         </div>
         <div id="pokemon" class="row">
           <h2>Pokemon of the Day:</h2>
-          <div id="pokemonDetails">
+          <div class="pokemonDetails">
             <h3 id="pokemonName"></h3>
             <img id="pokemonImage" alt="Pokemon Image" />
           </div>
         </div>
         <div class="row">
           <h2>About Me:</h2>
-          <p id="bacon-text">Loading tasty facts about me...</p>
+          <p id="baconText">Loading tasty facts about me...</p>
         </div>
       </div>
-      <div id="sidebar">
+      <div class="sidebar gender">
         <h2>Friends List:</h2>
         <ul id="friendsList"></ul>
       </div>
